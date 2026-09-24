@@ -1,0 +1,7 @@
+# Use this workspace to collaborate
+workspace:
+  id: ""
+
+localResources:
+  collections:
+    - ../food-preorder-backend/postman/Food-PreOrder.postman_collection.json

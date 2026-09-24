@@ -1,0 +1,203 @@
+{
+  "info": {
+    "name": "Food Pre-Order API",
+    "description": "Postman collection for P15 Food Pre-Order System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "userToken", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "menuItemId", "value": "" },
+    { "key": "orderId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Test User\",\"email\":\"testuser@example.com\",\"password\":\"Password@123\"}"
+            },
+            "url": "{{baseUrl}}/api/auth/register"
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"student@college.com\",\"password\":\"Student@123\"}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"admin@cafeteria.com\",\"password\":\"Admin@123\"}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Menu",
+      "item": [
+        {
+          "name": "Get Menu",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": "{{baseUrl}}/api/menu"
+          }
+        },
+        {
+          "name": "Create Menu Item - Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Paneer Roll\",\"category\":\"Snacks\",\"price\":60,\"isAvailable\":true}"
+            },
+            "url": "{{baseUrl}}/api/admin/menu"
+          }
+        },
+        {
+          "name": "Update Menu Item - Admin",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"price\":65}"
+            },
+            "url": "{{baseUrl}}/api/admin/menu/{{menuItemId}}"
+          }
+        },
+        {
+          "name": "Change Menu Availability - Admin",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"isAvailable\":false}"
+            },
+            "url": "{{baseUrl}}/api/admin/menu/{{menuItemId}}/status"
+          }
+        },
+        {
+          "name": "Delete Menu Item - Admin",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/api/admin/menu/{{menuItemId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{userToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"items\":[{\"menuItemId\":\"{{menuItemId}}\",\"quantity\":2}]}"
+            },
+            "url": "{{baseUrl}}/api/orders"
+          }
+        },
+        {
+          "name": "My Orders",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": "{{baseUrl}}/api/orders/my"
+          }
+        },
+        {
+          "name": "Get My Order",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}"
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{userToken}}" }],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}/cancel"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Orders",
+      "item": [
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/api/admin/orders"
+          }
+        },
+        {
+          "name": "Get Order",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/api/admin/orders/{{orderId}}"
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"CONFIRMED\"}"
+            },
+            "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/status"
+          }
+        }
+      ]
+    }
+  ]
+}

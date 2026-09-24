@@ -1,0 +1,9 @@
+{
+  "name": "food-preorder-system-root",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm --prefix food-preorder-backend run dev",
+    "start": "npm --prefix food-preorder-backend start",
+    "seed": "npm --prefix food-preorder-backend run seed"
+  }
+}
